@@ -2,8 +2,8 @@ import { AxiosError } from 'axios';
 import { HttpClient } from '../src/http-client';
 
 type Post = {
-  userId: number;
   id: number;
+  userId: number;
   title: string;
   body: string;
 };
@@ -70,6 +70,34 @@ describe('HttpClient', () => {
       status: undefined,
       code: 'EPROTO',
       message: expect.any(String),
+    });
+  });
+
+  test('should fetch a single post using POST', async () => {
+    const httpClient = new HttpClient(BASE_URL);
+    const response = await httpClient.post<Omit<Post, 'id'>>('/posts', {
+      userId: 1,
+      title: 'Test Post',
+      body: 'This is a test post',
+    });
+    expect(response.status).toBe(201);
+    expect(response.headers).toMatchObject({
+      'content-type': expect.stringContaining('application/json'),
+    });
+    expect(response.error).toBeUndefined();
+    expect(response.data).toMatchObject({
+      id: 101,
+    });
+  });
+
+  test('should delete a post using DELETE', async () => {
+    const httpClient = new HttpClient(BASE_URL);
+    const response = await httpClient.delete('/posts/1');
+    expect(response.status).toBe(200);
+    expect(response.error).toBeUndefined();
+    expect(response.data).toMatchObject({});
+    expect(response.headers).toMatchObject({
+      'content-type': expect.stringContaining('application/json'),
     });
   });
 });
