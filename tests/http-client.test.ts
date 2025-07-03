@@ -1,14 +1,7 @@
 import { AxiosError } from 'axios';
 import { HttpClient } from '../src/http-client';
 
-type Post = {
-  id: number;
-  userId: number;
-  title: string;
-  body: string;
-};
-
-describe('HttpClient', () => {
+describe('HttpClient Integration Tests', () => {
   const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
   test('should fetch a single post using GET', async () => {
@@ -101,3 +94,10 @@ describe('HttpClient', () => {
     });
   });
 });
+
+type Post = {
+  id: number;
+  userId: number;
+  title: string;
+  body: string;
+};
