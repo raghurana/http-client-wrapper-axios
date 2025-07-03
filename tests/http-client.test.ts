@@ -1,12 +1,19 @@
 import { AxiosError } from 'axios';
 import { HttpClient } from '../src/http-client';
 
+type Post = {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+};
+
 describe('HttpClient', () => {
   const BASE_URL = 'https://jsonplaceholder.typicode.com';
 
-  test('should fetch a post using GET', async () => {
+  test('should fetch a single post using GET', async () => {
     const httpClient = new HttpClient(BASE_URL);
-    const response = await httpClient.get('/posts/1');
+    const response = await httpClient.get<Post>('/posts/1');
     expect(response.status).toBe(200);
     expect(response.headers).toMatchObject({
       'content-type': expect.stringContaining('application/json'),
@@ -17,6 +24,18 @@ describe('HttpClient', () => {
       title: expect.any(String),
       body: expect.any(String),
     });
+  });
+
+  test('should fetch multiple posts using GET', async () => {
+    const httpClient = new HttpClient(BASE_URL);
+    const response = await httpClient.get<Post[]>('/posts');
+    expect(response.status).toBe(200);
+    expect(response.headers).toMatchObject({
+      'content-type': expect.stringContaining('application/json'),
+    });
+    expect(response.error).toBeUndefined();
+    expect(response.data).toBeInstanceOf(Array);
+    expect(response.data).toHaveLength(100);
   });
 
   test('should return 404 when fetching a non-existent post', async () => {
