@@ -1,6 +1,3 @@
 {
-    "files.exclude": {
-        "**/node_modules": true,
-        "**/.jest-cache": true
-    }
+    "files.exclude": {}
 }
