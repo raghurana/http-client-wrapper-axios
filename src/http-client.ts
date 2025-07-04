@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { tryCatch } from './try-catch';
 
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -21,11 +21,8 @@ export type HttpResponse<TResBody = unknown> = {
 export class HttpClient {
   private readonly axiosInstance: AxiosInstance;
 
-  constructor(baseURL: string, options?: AxiosRequestConfig) {
-    this.axiosInstance = axios.create({
-      baseURL,
-      ...options,
-    });
+  constructor(baseURL: string) {
+    this.axiosInstance = axios.create({ baseURL });
   }
 
   get<Res = unknown>(

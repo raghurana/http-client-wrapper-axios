@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios';
-import { HttpClient } from '../src/http-client';
+import { HttpClient } from '../../src/http-client';
 
 describe('HttpClient Integration Tests', () => {
   const BASE_URL = 'https://jsonplaceholder.typicode.com';
